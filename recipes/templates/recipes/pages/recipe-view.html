@@ -1,0 +1,20 @@
+{% include 'recipes/partials/head.html' %}
+
+<body>
+
+    <!-- Header da páginaa-->
+    {% include 'recipes/partials/header.html' %}
+
+    <!-- Barra de pesquisa-->
+    {% include 'recipes/partials/search.html' %}
+
+    <main class="main-content-container">
+        <div class="main-content main-content-detail container">
+            {% include 'recipes/partials/recipes.html' %}           
+        </div>
+        {% include 'recipes/partials/footer.html' %}
+    </main>
+
+</body>
+
+</html>
