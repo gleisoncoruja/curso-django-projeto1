@@ -7,7 +7,9 @@ from .models import Recipe
 
 
 def home(request):
-    recipes = Recipe.objects.filter(is_published=True).order_by('-id')
+    recipes = Recipe.objects.filter(
+        is_published=True).order_by('-id')
+
     return render(request, 'recipes/pages/home.html', context={
         'recipes': recipes,
     })
@@ -27,8 +29,8 @@ def category(request, category_id):
 
 
 def recipe(request, id):
-    recipe = Recipe.objects.filter(pk=id,
-                                   is_published=True).order_by('-id').first()
+
+    recipe = get_object_or_404(Recipe, pk=id, is_published=True)
 
     return render(request, 'recipes/pages/recipe-view.html', context={
         'recipe': recipe,
