@@ -1,5 +1,3 @@
-from winreg import KEY_WOW64_32KEY
-
 from django.test import TestCase
 from django.urls import reverse
 
