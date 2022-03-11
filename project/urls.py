@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from xml.dom.minidom import Document
+from xml.dom.minidom import Document  # noqa
 
 from django.conf import settings
 from django.conf.urls.static import static
