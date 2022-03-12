@@ -1,18 +1,14 @@
 from django.urls import resolve, reverse
 from recipes import views
 
-from .test_recipe_base import RecipeTestBase
+from .test_recipe_base import Recipe, RecipeTestBase
 
 
 class RecipeViewsTest(RecipeTestBase):
-    def tearDown(self) -> None:
-        return super().tearDown()
 
-    # SETUP É EXECUTADO ANTES DO MÉTODO
     def test_recippe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
         self.assertIs(view.func, views.home)
-    # TEARDOWN É EXECUTADO DEPOIS DO METODO
 
     def test_recipe_home_view_returns_status_code_200_ok(self):
         response = self.client.get(reverse('recipes:home'))
@@ -24,7 +20,7 @@ class RecipeViewsTest(RecipeTestBase):
         self.assertTemplateUsed(response, 'recipes/pages/home.html')
 
     def test_recipe_home_template_shows_no_recipes_found_if_no_recipes(self):
-        Recipe.objects.get(pk=1).delete()
+
         response = self.client.get(reverse('recipes:home'))
         self.assertIn(
             'Ainda não há receitas cadastradas',
@@ -32,15 +28,13 @@ class RecipeViewsTest(RecipeTestBase):
 
     def test_recipe_home_template_loads_recipes(self):
 
+        self.make_recipe()
+
         response = self.client.get(reverse('recipes:home'))
         content = response.content.decode('utf-8')
         response_context_recipe = response.context['recipes']
         self.assertIn('Recipe Title', content)
-        self.assertIn('10 Minutos', content)
-        self.assertIn('5 Porções', content)
         self.assertEqual(len(response_context_recipe), 1)
-
-        assert 1 == 1
 
     def test_recippe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
