@@ -8,7 +8,7 @@ from .test_recipe_base import RecipeTestBase
 
 class RecipeViewsTest(RecipeTestBase):
 
-    def test_recippe_home_view_function_is_correct(self):
+    def test_recipe_home_view_function_is_correct(self):
         view = resolve(reverse('recipes:home'))
         self.assertIs(view.func, views.home)
 
@@ -37,6 +37,18 @@ class RecipeViewsTest(RecipeTestBase):
         response_context_recipe = response.context['recipes']
         self.assertIn('Recipe Title', content)
         self.assertEqual(len(response_context_recipe), 1)
+
+    def test_recipe_home_template_dont_load_recipes_not_published(self):
+        """Test recipe is_published False dont show"""
+
+        # Need a recipe for this test
+        self.make_recipe(is_published=False)
+
+        response = self.client.get(reverse('recipes:home'))
+
+        self.assertIn(
+            'Ainda não há receitas cadastradas',
+            response.content.decode('utf-8'))
 
     def test_recippe_category_view_function_is_correct(self):
         view = resolve(reverse('recipes:category', kwargs={'category_id': 1}))
