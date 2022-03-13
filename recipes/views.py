@@ -49,8 +49,14 @@ def search(request):
 
     recipes = Recipe.objects.filter(
         # O or do Mysql é feito dessa forma no Django
-        Q(title__contains=search_term) |
-        Q(description__icontains=search_term),
+        Q(
+            Q(title__contains=search_term) |  # esse pipe é o or
+            Q(description__icontains=search_term),
+        ),
+        # Aqui seria o and do MySql
+        is_published=True
+
+
     ).order_by('-id')
 
     return render(request, 'recipes/pages/search.html', {
