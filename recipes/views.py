@@ -4,9 +4,10 @@ from turtle import title
 from django.db.models import Q
 from django.http import Http404  # noqa
 from django.shortcuts import get_list_or_404, get_object_or_404, render
-from utils.recipes.factory import make_recipe  # noqa
 
 from .models import Recipe
+
+#from utils.recipes.factory1 import make_recipe  # noqa
 
 
 def home(request):
