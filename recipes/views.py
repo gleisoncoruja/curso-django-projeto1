@@ -2,6 +2,7 @@ import os
 from telnetlib import STATUS
 from turtle import title
 
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import Http404  # noqa
