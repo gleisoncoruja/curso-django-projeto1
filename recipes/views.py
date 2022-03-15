@@ -1,3 +1,4 @@
+import os
 from telnetlib import STATUS
 from turtle import title
 
@@ -9,14 +10,14 @@ from utils.pagination import make_pagination
 
 from .models import Recipe
 
-#from utils.recipes.factory1 import make_recipe  # noqa
+PER_PAGE = os.environ.get('PER_PAGE', 6)
 
 
 def home(request):
     recipes = Recipe.objects.filter(
         is_published=True).order_by('-id')
 
-    page_obj, pagination_range = make_pagination(request, recipes, 9)
+    page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 
     return render(request, 'recipes/pages/home.html', context={
         'recipes': page_obj,
@@ -31,7 +32,7 @@ def category(request, category_id):
                               is_published=True).order_by('-id')
     )
 
-    page_obj, pagination_range = make_pagination(request, recipes, 9)
+    page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 
     return render(request, 'recipes/pages/category.html', context={
         'recipes': page_obj,
@@ -68,7 +69,7 @@ def search(request):
 
     ).order_by('-id')
 
-    page_obj, pagination_range = make_pagination(request, recipes, 9)
+    page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 
     return render(request, 'recipes/pages/search.html', {
         'page_title': f'Search for "{search_term}" |',
