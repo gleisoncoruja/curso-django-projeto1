@@ -2,7 +2,6 @@ import os
 from telnetlib import STATUS
 from turtle import title
 
-from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import Http404  # noqa
@@ -17,10 +16,6 @@ PER_PAGE = int(os.environ.get('PER_PAGE', 6))
 def home(request):
     recipes = Recipe.objects.filter(
         is_published=True).order_by('-id')
-
-    messages.success(request, 'Mensagem')
-    messages.error(request, 'Mensagem')
-    messages.info(request, 'Mensagem')
 
     page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 

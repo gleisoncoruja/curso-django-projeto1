@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from ast import Constant
 import os
+from ast import Constant
 from pathlib import Path
+
 from django.contrib.messages import constants
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Meus apps abaixo
-    'recipes'
+    'recipes',
+    'authors',
 ]
 
 MIDDLEWARE = [
