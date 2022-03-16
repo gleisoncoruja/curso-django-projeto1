@@ -37,6 +37,18 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeate your password')
 
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
+        required=True,
+        label='First name',
+    )
+
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        required=True,
+        label='Last name',
+    )
+
     username = forms.CharField(
         label='Username',
         help_text=(
@@ -51,18 +63,6 @@ class RegisterForm(forms.ModelForm):
 
         min_length=4, max_length=150,
 
-    )
-
-    first_name = forms.CharField(
-        error_messages={'required': 'Write your first name'},
-        required=True,
-        label='First name',
-    )
-
-    last_name = forms.CharField(
-        error_messages={'required': 'Write your last name'},
-        required=True,
-        label='Last name',
     )
 
     password = forms.CharField(
@@ -91,9 +91,9 @@ class RegisterForm(forms.ModelForm):
     email = forms.EmailField(
         error_messages={'required': 'E-mail is required'},
         label='E-mail',
-        help_text={
-            'email': 'The e-mail must be valid',
-        },
+        help_text=(
+            'The e-mail must be valid'
+        ),
     )
 
     class Meta:
@@ -101,18 +101,26 @@ class RegisterForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
+            'username',
             'email',
             'password',
         ]
-
-        help_text = {
-            'email': 'The e-mail must be valid',
-        }
 
         widgets = {
 
             'password': forms.PasswordInput()
         }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+        exists = User.objects.filter(email=email).exists()
+
+        if exists:
+            raise ValidationError(
+                'User e-mail is arealdy in use', code='invalid',
+            )
+
+        return email
 
     def clean(self):
         cleaned_data = super().clean()
