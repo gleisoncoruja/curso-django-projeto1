@@ -37,6 +37,22 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeate your password')
 
+    username = forms.CharField(
+        label='Username',
+        help_text=(
+            'Username must have letters, numbers or one of those @ . + - _ . '
+            'Then length should be between 4 and 15 characters.'
+        ),
+        error_messages={
+            'required': 'This field must not be empty',
+            'min_length': 'Username must have at least 4 charecters',
+            'max_length': 'Username must have at less than 150 charecters',
+        },
+
+        min_length=4, max_length=150,
+
+    )
+
     first_name = forms.CharField(
         error_messages={'required': 'Write your first name'},
         required=True,
@@ -85,27 +101,12 @@ class RegisterForm(forms.ModelForm):
         fields = [
             'first_name',
             'last_name',
-            'username',
             'email',
             'password',
         ]
 
-        labels = {
-            'username': 'Username',
-            'first_name': 'First name',
-            'last_name': 'Last Name',
-            'email': 'E-mail',
-            'password': 'Password',
-        }
-
         help_text = {
             'email': 'The e-mail must be valid',
-        }
-
-        error_messages = {
-            'username': {
-                'required': 'This field must not be empty',
-            }
         }
 
         widgets = {
