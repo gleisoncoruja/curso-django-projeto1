@@ -49,6 +49,7 @@ class RegisterForm(forms.ModelForm):
             'The length should be at least 8 characters'
         ),
         validators=[strong_password],
+        label='Password',
     )
 
     password2 = forms.CharField(
@@ -91,30 +92,6 @@ class RegisterForm(forms.ModelForm):
 
             'password': forms.PasswordInput()
         }
-
-    def clean_password(self):
-        data = self.cleaned_data.get("password")
-
-        if 'atenção' in data:
-            raise ValidationError(
-                'Não digite %(value)s no campo password',
-                code='invalid',
-                params={'value': '"atenção"'}
-            )
-
-        return data
-
-    def clean_first_name(self):
-        data = self.cleaned_data["first_name"]
-
-        if 'John Doe' in data:
-            raise ValidationError(
-                'Não digite %(value)s no campo first name',
-                code='invalid',
-                params={'value': '"John Doe"'}
-            )
-
-        return data
 
     def clean(self):
         cleaned_data = super().clean()
