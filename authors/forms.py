@@ -37,8 +37,19 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeate your password')
 
-    password = forms.CharField(
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
         required=True,
+        label='First name',
+    )
+
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        required=True,
+        label='Last name',
+    )
+
+    password = forms.CharField(
         widget=forms.PasswordInput(),
         error_messages={
             'required': 'Password must not be empty'
@@ -55,8 +66,17 @@ class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
+        label='Password2',
         error_messages={
-            'required': 'Password must not be empty'
+            'required': 'Please, repeat your password'
+        },
+    )
+
+    email = forms.EmailField(
+        error_messages={'required': 'E-mail is required'},
+        label='E-mail',
+        help_text={
+            'email': 'The e-mail must be valid',
         },
     )
 
