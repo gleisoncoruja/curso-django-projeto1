@@ -344,6 +344,15 @@
             margin-bottom: var(--spacing-gutter-medium);
         }
 
+        .plaintext-button{
+            display: inline;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            color: var(--color-primary);
+        }
+
         .form-content label, 
         .form-content .help-text,
         .errorlist{
