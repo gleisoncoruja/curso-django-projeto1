@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from ssl import Options
+# from ssl import Options
 from time import sleep
 
 from selenium import webdriver
