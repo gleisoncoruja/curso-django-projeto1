@@ -71,5 +71,3 @@ class RecipeHomePageFunctionalTest(RacipeBaseFunctionalTest):
                 )
             ), 2
         )
-
-        self.sleep(6)
