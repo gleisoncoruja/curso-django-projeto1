@@ -177,9 +177,7 @@ class RecipeViewsTest(RecipeTestBase):
         self.assertIn(recipe2, response_both.context['recipes'])
 
     def test_recipe_home_is_paginated(self):
-        for i in range(8):
-            kwargs = {'slug': f'r{i}', 'author_data': {'username': f'u{i}'}}
-            self.make_recipe(**kwargs)
+        self.make_recipe_in_batch(8)
 
         with patch('recipes.views.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home',))
@@ -192,9 +190,7 @@ class RecipeViewsTest(RecipeTestBase):
         self.assertEqual(len(paginator.get_page(3)), 2)
 
     def test_invalid_page_query_uses_pages_one(self):
-        for i in range(8):
-            kwargs = {'slug': f'r{i}', 'author_data': {'username': f'u{i}'}}
-            self.make_recipe(**kwargs)
+        self.make_recipe_in_batch(8)
 
         with patch('recipes.views.PER_PAGE', new=3):
 
