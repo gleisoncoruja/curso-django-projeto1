@@ -440,6 +440,11 @@
             color: var(--color-debug-dark);
         }
 
+        /* Authors. */
+        .login-message{
+            margin: 1rem;
+        }
+
         @media (max-width: 600px) {
             .main-content-list,
             .form-content-grid{
