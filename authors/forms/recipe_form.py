@@ -1,3 +1,5 @@
+from tkinter import Widget
+
 from django import forms
 from recipes.models import Recipe
 from utils.django_forms import add_attr
@@ -22,3 +24,30 @@ class AuthorRecipeForm(forms.ModelForm):
             'preparation_steps',
             'cover',
         ]
+
+        widgets = {
+            'cover': forms.FileInput(
+                attrs={
+                    'class': 'span-2'
+                }
+            ),
+
+            'serving_unit': forms.Select(
+                choices=(
+
+                    ('Porções', 'Porções'),
+                    ('Pedaços', 'Pedaços'),
+                    ('Pessoas', 'Pessoas'),
+
+                ),
+            ),
+
+            'preparation_time_unit': forms.Select(
+                choices=(
+
+                    ('Minutos', 'Minutos'),
+                    ('Horas', 'Horas'),
+
+                ),
+            ),
+        }
