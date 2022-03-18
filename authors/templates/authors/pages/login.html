@@ -10,8 +10,11 @@
 </div>
 
 <div class="main-content center container">
- {% include 'global/partials/message.html' %}   
- {% include 'global/partials/form.html' %}   
+ {% include 'global/partials/message.html' %} 
+  
+ {% if not user.is_authenticated %}
+    {% include 'global/partials/form.html' %}   
+{% endif %}
 </div>
 
 
