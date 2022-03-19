@@ -1,5 +1,4 @@
 import os
-from ast import arg
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -11,6 +10,7 @@ from recipes.models import Recipe
 from recipes.views import PER_PAGE
 from utils.pagination import make_pagination
 
+from authors.forms import recipe_form
 from authors.forms.recipe_form import AuthorRecipeForm
 
 from .forms import LoginForm, RegisterForm
@@ -157,3 +157,40 @@ def dashboard_recipe_edit(request, id):
             'form': form,
         }
     )
+
+
+@ login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_new_recipe(request):
+    new_recipe_data = request.session.get('new_recipe_data', None)
+    form = AuthorRecipeForm(new_recipe_data)
+
+    return render(request, 'authors/pages/dashboard_new_recipe.html', {
+        'form': form,
+        'form_action': reverse('authors:dashboard_new_recipe_create'),
+    })
+
+
+def dashboard_new_recipe_create(request):
+    if not request.POST:
+        raise Http404
+    POST = request.POST
+    request.session['dashboard_new_recipe'] = POST
+    form = AuthorRecipeForm(
+        data=request.POST or None,
+        files=request.FILES or None,
+    )
+
+    if form.is_valid():
+
+        recipe = form.save(commit=False)
+        recipe.author = request.user
+        recipe.preparation_steps_is_html = False
+        Recipe.is_published = False
+
+        recipe.save()
+
+        messages.success(request, 'Your recipe has been created')
+        del(request.session['dashboard_new_recipe'])
+        return redirect(reverse('authors:dashboard_new_recipe'))
+
+    return redirect('authors:dashboard_new_recipe')

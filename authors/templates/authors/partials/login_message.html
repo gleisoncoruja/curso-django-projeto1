@@ -2,6 +2,7 @@
       <div class="login-message">
           You are logged in with
           {{ request.user.username }}.
+          <a href="{% url 'authors:dashboard_new_recipe_create' %}"> Create new recipe </a>, 
           <a href="{% url 'authors:dashboard' %}"> See your recipes </a> or
           <form action="{% url 'authors:logout' %}" method="POST">
               {% csrf_token %}
