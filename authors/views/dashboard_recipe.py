@@ -10,7 +10,7 @@ from recipes.models import Recipe
 # @login_required(login_url='authors:login', redirect_field_name='next')
 class DashBoardRecipe(View):
 
-    def get_recipe(self, id):
+    def get_recipe(self, id=None):
         recipe = None
         if id:
             recipe = Recipe.objects.filter(
@@ -32,14 +32,14 @@ class DashBoardRecipe(View):
             }
         )
 
-    def get(self, request, id):
+    def get(self, request, id=None):
         recipe = self.get_recipe(id)
 
         form = AuthorRecipeForm(instance=recipe)
 
         return self.render_recipe(form)
 
-    def post(self, request, id):
+    def post(self, request, id=None):
         recipe = self.get_recipe(id)
 
         form = AuthorRecipeForm(
@@ -59,6 +59,7 @@ class DashBoardRecipe(View):
 
             messages.success(request, 'Sua receita foi salva com sucesso!')
 
-            return redirect(reverse('authors:dashboard_recipe_edit', args=(id,)))
+            return redirect(reverse('authors:dashboard_recipe_edit', args=(
+                recipe.id,)))
 
         return self.render_recipe(form)
