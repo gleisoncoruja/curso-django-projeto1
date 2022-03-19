@@ -74,7 +74,7 @@ def login_create(request):
     return redirect(reverse('authors:dashboard'))
 
 
-@ login_required(login_url='authors:login', redirect_field_name='next')
+@login_required(login_url='authors:login', redirect_field_name='next')
 def logout_view(request):
     if not request.POST:
         messages.error(request, 'Invalid logout request')
@@ -90,7 +90,7 @@ def logout_view(request):
     return redirect(reverse('authors:login'))
 
 
-@ login_required(login_url='authors:login', redirect_field_name='next')
+@login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard(request):
     recipes = Recipe.objects.filter(
         is_published=False,
@@ -114,7 +114,7 @@ def dashboard(request):
     )
 
 
-@ login_required(login_url='authors:login', redirect_field_name='next')
+@login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard_recipe_edit(request, id):
     recipe = Recipe.objects.filter(
         is_published=False,
