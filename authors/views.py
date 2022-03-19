@@ -7,10 +7,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from recipes.models import Recipe
-from recipes.views import PER_PAGE
 from utils.pagination import make_pagination
 
-from authors.forms import recipe_form
 from authors.forms.recipe_form import AuthorRecipeForm
 
 from .forms import LoginForm, RegisterForm
@@ -160,37 +158,31 @@ def dashboard_recipe_edit(request, id):
 
 
 @ login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_new_recipe(request):
-    new_recipe_data = request.session.get('new_recipe_data', None)
-    form = AuthorRecipeForm(new_recipe_data)
-
-    return render(request, 'authors/pages/dashboard_new_recipe.html', {
-        'form': form,
-        'form_action': reverse('authors:dashboard_new_recipe_create'),
-    })
-
-
-def dashboard_new_recipe_create(request):
-    if not request.POST:
-        raise Http404
-    POST = request.POST
-    request.session['dashboard_new_recipe'] = POST
+def dashboard_recipe_new(request):
     form = AuthorRecipeForm(
         data=request.POST or None,
         files=request.FILES or None,
     )
 
     if form.is_valid():
+        recipe: Recipe = form.save(commit=False)
 
-        recipe = form.save(commit=False)
         recipe.author = request.user
         recipe.preparation_steps_is_html = False
-        Recipe.is_published = False
+        recipe.is_published = False
 
         recipe.save()
 
-        messages.success(request, 'Your recipe has been created')
-        del(request.session['dashboard_new_recipe'])
-        return redirect(reverse('authors:dashboard_new_recipe'))
+        messages.success(request, 'Salvo com sucesso!')
+        return redirect(
+            reverse('authors:dashboard_recipe_edit', args=(recipe.id,))
+        )
 
-    return redirect('authors:dashboard_new_recipe')
+    return render(
+        request,
+        'authors/pages/dashboard_recipe.html',
+        context={
+            'form': form,
+            'form_action': reverse('authors:dashboard_recipe_new')
+        }
+    )
