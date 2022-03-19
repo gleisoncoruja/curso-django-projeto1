@@ -1,4 +1,5 @@
 import os
+from ast import arg
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -129,9 +130,23 @@ def dashboard_recipe_edit(request, id):
         raise Http404()
 
     form = AuthorRecipeForm(
-        request.POST or None,
-        instance=recipe
+        data=request.POST or None,
+        files=request.FILES or None,
+        instance=recipe,
     )
+
+    if form.is_valid():
+        recipe = form.save(commit=False)
+
+        recipe.author = request.user
+        recipe.preparation_steps_is_html = False
+        Recipe.is_published = False
+
+        recipe.save()
+
+        messages.success(request, 'Sua receita foi salva com sucesso!')
+
+        return redirect(reverse('authors:dashboard_recipe_edit', args=(id,)))
 
     return render(
 
