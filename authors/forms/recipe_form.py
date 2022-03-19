@@ -56,6 +56,7 @@ class AuthorRecipeForm(forms.ModelForm):
 
                 ),
             ),
+
         }
 
     def clean(self, *args, **kwargs):

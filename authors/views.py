@@ -15,7 +15,7 @@ from .forms import LoginForm, RegisterForm
 
 # Create your views here.
 
-PER_PAGE_DASHBOARD = int(os.environ.get('PER_PAGE_DASHBOARD',))
+PER_PAGE_DASHBOARD = int(os.environ.get('PER_PAGE_DASHBOARD', ''))
 
 
 def register_view(request):
@@ -186,3 +186,20 @@ def dashboard_recipe_new(request):
             'form_action': reverse('authors:dashboard_recipe_new')
         }
     )
+
+
+@ login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard_recipe_delete(request, id):
+    recipe = Recipe.objects.filter(
+        is_published=False,
+        author=request.user,
+        pk=id,
+    ).first()
+
+    if not recipe:
+        raise Http404()
+
+    recipe.delete()
+    messages.success(request, 'Deleted success')
+
+    return redirect(reverse('authors:dashboard'))
