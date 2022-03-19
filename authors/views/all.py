@@ -1,5 +1,7 @@
 import os
 
+from authors.forms import LoginForm, RegisterForm
+from authors.forms.recipe_form import AuthorRecipeForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -8,10 +10,6 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from recipes.models import Recipe
 from utils.pagination import make_pagination
-
-from authors.forms.recipe_form import AuthorRecipeForm
-
-from .forms import LoginForm, RegisterForm
 
 # Create your views here.
 
