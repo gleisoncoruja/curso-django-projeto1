@@ -32,7 +32,7 @@ class RecipeCategoryViewsTest(RecipeTestBase):
         response = self.client.get(
             reverse(
                 'recipes:recipe',
-                kwargs={'id': recipe.category.id}
+                kwargs={'pk': recipe.category.pk}
             )
         )
 
