@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-from ast import Constant
 from pathlib import Path
 
 from django.contrib.messages import constants
@@ -44,16 +43,20 @@ INSTALLED_APPS = [
     # Meus apps abaixo
     'recipes',
     'authors',
+    # Apps de terceiros
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -152,3 +155,8 @@ MESSAGE_TAGS = {
     constants.SUCCESS: 'message-success',
     constants.WARNING: 'message-warning',
 }
+
+# Django Debug Toolbar
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
