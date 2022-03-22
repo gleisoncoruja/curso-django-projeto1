@@ -179,3 +179,10 @@ class RecipeDetailAPI(RecipeDetail):
             recipe_dict,
             safe=False
         )
+
+
+def theory(request, *args, **kwargs):
+    return render(
+        request,
+        'recipes/pages/theory.html'
+    )

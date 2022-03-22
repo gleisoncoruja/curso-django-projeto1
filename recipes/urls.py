@@ -20,4 +20,6 @@ urlpatterns = [
         views.RecipeDetailAPI.as_view(),
         name="recipes_api_v1_detail"),
 
+    path('recipes/theory/', views.theory, name="theory"),
+
 ]
